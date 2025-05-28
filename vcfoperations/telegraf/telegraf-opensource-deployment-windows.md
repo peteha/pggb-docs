@@ -14,6 +14,8 @@ Telegraf requires an additional proxy collector which the Telegraf agents connec
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2006.42.42@2x.png)<!-- {"width":755} -->
 
 The proxy is added to a collector group.   In my example I am using a non-HA collector group called ‘pggb’.  The following is the screen shot of my example collector group.
+Use the IP address of the porxy in the .env and script.
+
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2006.46.03@2x.png)<!-- {"width":749} -->
 
 
@@ -30,6 +32,7 @@ New-Item -ItemType Directory -Force -Path "C:\Program Files\InfluxData\telegraf\
 cd C:\Deploy\Temp
 ```
 
+
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2008.00.17@2x.png)<!-- {"width":546} -->
 ---
 
@@ -43,8 +46,10 @@ OPS_USERNAME=admin
 OPS_PASSWORD=##$$VMware123
 TOKEN_PATH=C:\\Deploy\\Temp\\auth_token.txt
 OPS_PROXY=10.205.16.57
-COLLECTION_GROUP=pggb
+COLLECTION_GROUP=10.205.16.57
 ```
+
+Note the collection group is the IP address of the Ops Proxy.
 
 *> ⚠️ Keep this file secure, as it contains sensitive credentials.*
 
@@ -63,6 +68,7 @@ foreach ($line in Get-Content "C:\Deploy\Temp\.env" -Encoding ASCII) {
 }
 $envVars.GetEnumerator() | ForEach-Object { "$($_.Key) = $($_.Value)" }
 ```
+
 
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2008.01.37@2x.png)<!-- {"width":546} -->
 
@@ -84,6 +90,7 @@ Expand-Archive -Path "C:\Deploy\Temp\telegraf.zip" -DestinationPath "C:\Program 
 ```powershell
 curl.exe -k -L -o "C:\Deploy\Temp\telegraf-utils.ps1" https://$($envVars["OPS_PROXY"])/downloads/salt/telegraf-utils.ps1
 ```
+
 
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.59.06@2x.png)<!-- {"width":687} -->
 
@@ -112,6 +119,7 @@ if (-not $TokenResponse.token) {
 $TokenResponse.token | Out-File -FilePath $envVars["TOKEN_PATH"] -Encoding ascii
 ```
 
+
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.55.59@2x.png)<!-- {"width":592} -->
 ---
 
@@ -131,6 +139,7 @@ powershell -ExecutionPolicy Bypass -File "C:\Deploy\Temp\telegraf-utils.ps1" `
   -v $envVars["OPS_HOST"]
 ```
 
+
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.40.57@2x.png)<!-- {"width":554} -->
 *Error does not impact deployment - if successful it should say “Telegraf configuration to post metrics to cloud proxy succeeded. Please restart telegraf.”*
 ## Step 8: Register Telegraf
@@ -142,6 +151,7 @@ powershell -ExecutionPolicy Bypass -File "C:\Deploy\Temp\telegraf-utils.ps1" `
   service install
 ```
 
+
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.43.06@2x.png)<!-- {"width":554} -->
 
 
@@ -150,6 +160,7 @@ powershell -ExecutionPolicy Bypass -File "C:\Deploy\Temp\telegraf-utils.ps1" `
 ```powershell
 net start telegraf
 ```
+
 
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.48.23@2x.png)<!-- {"width":360} -->
 
