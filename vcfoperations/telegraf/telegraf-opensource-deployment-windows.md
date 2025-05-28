@@ -115,9 +115,6 @@ if (-not $TokenResponse.token) {
 $TokenResponse.token | Out-File -FilePath $envVars["TOKEN_PATH"] -Encoding ascii
 ```
 
-*> Ensure the* `.env` *file exists before running this step.*
-
-
 Example:
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.55.59@2x.png)<!-- {"width":592} -->
 ---
