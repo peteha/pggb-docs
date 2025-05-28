@@ -125,3 +125,35 @@ powershell -ExecutionPolicy Bypass -File "C:\Deploy\Temp\telegraf-utils.ps1" `
 - Run all commands in an elevated PowerShell session.
 - Ensure network access to the required VMware Aria Operations API endpoints.
 - Monitor logs for success or troubleshooting.
+
+- - -
+## Resources
+
+### Overview of Telegraf Integration
+
+Comprehensive guide on integrating open-source Telegraf with VMware Aria Operations:
+- 📘 [Monitoring Application Services and Operating Systems using Open Source Telegraf](https://techdocs.broadcom.com/us/en/vmware-cis/aria/aria-operations/8-18/vmware-aria-operations-configuration-guide-8-18/connect-to-data-sources/monitoring-applications-and-os-using-open-source-telegraf.html)
+
+### Install and Configure Open Source Telegraf
+
+Step-by-step instructions for setting up Telegraf:
+- 🔧 [Install and Configure Open Source Telegraf](https://techdocs.broadcom.com/us/en/vmware-cis/aria/aria-operations/8-18/vmware-aria-operations-configuration-guide-8-18/connect-to-data-sources/monitoring-applications-and-os-using-open-source-telegraf/monitoring-applications-using-open-source-telegraf/install-and-configure-open-source-telegraf.html)
+
+### Windows Platform Guide
+
+Platform-specific instructions for Windows environments:
+- 🪟 [Monitoring Applications using Open Source Telegraf on a Windows Platform](https://techdocs.broadcom.com/us/en/vmware-cis/aria/aria-operations/8-18/vmware-aria-operations-configuration-guide-8-18/connect-to-data-sources/monitoring-applications-and-os-using-open-source-telegraf/monitoring-applications-using-open-source-telegraf/monitoring-applications-using-open-source-telegraf-on-a-windows-platform-saas-onprem.html)
+
+### Sample Scripts and Configurations
+
+Example config files and scripts:
+- 💾 [Sample Scripts and Configurations](https://techdocs.broadcom.com/us/en/vmware-cis/aria/aria-operations/8-18/vmware-aria-operations-configuration-guide-8-18/connect-to-data-sources/monitoring-applications-and-os-using-open-source-telegraf/monitoring-applications-using-open-source-telegraf/sample-scripts-open-source-telegraf.html)
+
+Common issues and resolutions:
+- 🛠️ [Telegraf Troubleshooting](https://techdocs.broadcom.com/us/en/ca-enterprise-software/it-operations-management/vmware-aria-operations-for-applications/saas/telegraf_details.html)
+
+### Broadcom Support Portal
+
+Downloads and documentation:
+- 🌐 [Broadcom Support Downloads](https://www.broadcom.com/support/download-search)
+
