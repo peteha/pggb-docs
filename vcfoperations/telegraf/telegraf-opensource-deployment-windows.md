@@ -2,6 +2,9 @@
 
 This guide provides a step-by-step manual process to install and configure the open-source Telegraf agent on a Windows VM, optimized for integration with VMware Aria Operations.
 
+**Disclaimer**
+This is a guide only - refer to official documentation befor utilising in your own environment.
+
 ## Pre-Requisites
 
 ### 1. VCF Operations Collection Proxy and Collector Group
@@ -24,8 +27,11 @@ The proxy is added to a collector group.   In my example I am using a non-HA col
 New-Item -ItemType Directory -Force -Path "C:\Deploy\Temp"
 New-Item -ItemType Directory -Force -Path "C:\Program Files\InfluxData\telegraf"
 New-Item -ItemType Directory -Force -Path "C:\Program Files\InfluxData\telegraf\telegraf.d"
+cd C:\Deploy\Temp
 ```
 
+Example:
+![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2008.00.17@2x.png)<!-- {"width":546} -->
 ---
 
 ## 🧾 Step 2: Create the .env File
@@ -36,7 +42,7 @@ Create a file named `.env` in `C:\Deploy\Temp` with the following contents. This
 OPS_HOST=pgops.pggb.net
 OPS_USERNAME=admin
 OPS_PASSWORD=##$$VMware123
-TOKEN_PATH=C:\Deploy\Temp\auth_token.txt
+TOKEN_PATH=C:\\Deploy\\Temp\\auth_token.txt
 OPS_PROXY=10.205.16.57
 COLLECTION_GROUP=pggb
 ```
@@ -48,9 +54,19 @@ COLLECTION_GROUP=pggb
 ## 🧬 Step 3: Load Environment Variables
 
 ```powershell
-$envFile = "C:\Deploy\Temp\.env"
-$envVars = Get-Content $envFile -Encoding ASCII | Where-Object { $_ -match "=" } | ConvertFrom-StringData
+$envVars = @{}
+foreach ($line in Get-Content "C:\Deploy\Temp\.env" -Encoding ASCII) {
+    if ($line -match '^\s*([^#][^=]*)=(.*)$') {
+        $key = $matches[1].Trim()
+        $val = $matches[2].Trim().Trim('"')
+        $envVars[$key] = $val
+    }
+}
+$envVars.GetEnumerator() | ForEach-Object { "$($_.Key) = $($_.Value)" }
 ```
+
+Example:
+![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2008.01.37@2x.png)<!-- {"width":546} -->
 
 ---
 
@@ -71,6 +87,9 @@ Expand-Archive -Path "C:\Deploy\Temp\telegraf.zip" -DestinationPath "C:\Program 
 curl.exe -k -L -o "C:\Deploy\Temp\telegraf-utils.ps1" https://$($envVars["OPS_PROXY"])/downloads/salt/telegraf-utils.ps1
 ```
 
+Example:
+![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.59.06@2x.png)<!-- {"width":687} -->
+
 ---
 
 ## 🔑 Step 6: Acquire Auth Token
@@ -86,8 +105,7 @@ $Cred = @{
 $TokenResponse = Invoke-RestMethod -Method Post `
   -Uri "https://$($envVars["OPS_HOST"])/suite-api/api/auth/token/acquire?_no_links=true" `
   -Headers @{ "accept" = "application/json"; "Content-Type" = "application/json" } `
-  -Body ($Cred | ConvertTo-Json) `
-  -SkipCertificateCheck
+  -Body ($Cred | ConvertTo-Json)
 
 if (-not $TokenResponse.token) {
     Write-Error "Failed to retrieve auth token. Check credentials or network access."
@@ -99,6 +117,9 @@ $TokenResponse.token | Out-File -FilePath $envVars["TOKEN_PATH"] -Encoding ascii
 
 *> Ensure the* `.env` *file exists before running this step.*
 
+
+Example:
+![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.55.59@2x.png)<!-- {"width":592} -->
 ---
 
 ## 📝 Step 7: Configure Telegraf with the Token
@@ -117,6 +138,36 @@ powershell -ExecutionPolicy Bypass -File "C:\Deploy\Temp\telegraf-utils.ps1" `
   -v $envVars["OPS_HOST"]
 ```
 
+Example:
+![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.40.57@2x.png)<!-- {"width":554} -->
+*Error does not impact deployment - if successful it should say “Telegraf configuration to post metrics to cloud proxy succeeded. Please restart telegraf.”*
+## Step 8: Register Telegraf
+
+```powershell
+& "C:\Program Files\InfluxData\telegraf\telegraf-1.34.4\telegraf.exe" `
+  --config "C:\Program Files\InfluxData\telegraf\telegraf-1.34.4\telegraf.conf" `
+  --config-directory "C:\Program Files\InfluxData\telegraf\telegraf.d" `
+  service install
+```
+
+Example:
+![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.43.06@2x.png)<!-- {"width":554} -->
+
+
+## Step 9: Start Telegraf
+
+```powershell
+net start telegraf
+```
+
+Example:
+![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.48.23@2x.png)<!-- {"width":360} -->
+
+## Step 10:
+
+After a couple of collections cycles the agent should show as deployed in the the Ops console under Operations —> Applications —> Manage Telegraf Agents.
+![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.52.39@2x.png)<!-- {"width":938} -->
+Green tick in a circle confirms data is being collected.
 
 ---
 
