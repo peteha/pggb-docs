@@ -30,7 +30,6 @@ New-Item -ItemType Directory -Force -Path "C:\Program Files\InfluxData\telegraf\
 cd C:\Deploy\Temp
 ```
 
-Example:
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2008.00.17@2x.png)<!-- {"width":546} -->
 ---
 
@@ -65,7 +64,6 @@ foreach ($line in Get-Content "C:\Deploy\Temp\.env" -Encoding ASCII) {
 $envVars.GetEnumerator() | ForEach-Object { "$($_.Key) = $($_.Value)" }
 ```
 
-Example:
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2008.01.37@2x.png)<!-- {"width":546} -->
 
 ---
@@ -87,7 +85,6 @@ Expand-Archive -Path "C:\Deploy\Temp\telegraf.zip" -DestinationPath "C:\Program 
 curl.exe -k -L -o "C:\Deploy\Temp\telegraf-utils.ps1" https://$($envVars["OPS_PROXY"])/downloads/salt/telegraf-utils.ps1
 ```
 
-Example:
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.59.06@2x.png)<!-- {"width":687} -->
 
 ---
@@ -115,7 +112,6 @@ if (-not $TokenResponse.token) {
 $TokenResponse.token | Out-File -FilePath $envVars["TOKEN_PATH"] -Encoding ascii
 ```
 
-Example:
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.55.59@2x.png)<!-- {"width":592} -->
 ---
 
@@ -147,7 +143,6 @@ Example:
   service install
 ```
 
-Example:
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.43.06@2x.png)<!-- {"width":554} -->
 
 
@@ -157,7 +152,6 @@ Example:
 net start telegraf
 ```
 
-Example:
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.48.23@2x.png)<!-- {"width":360} -->
 
 ## Step 10:
