@@ -131,7 +131,6 @@ powershell -ExecutionPolicy Bypass -File "C:\Deploy\Temp\telegraf-utils.ps1" `
   -v $envVars["OPS_HOST"]
 ```
 
-Example:
 ![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.40.57@2x.png)<!-- {"width":554} -->
 *Error does not impact deployment - if successful it should say “Telegraf configuration to post metrics to cloud proxy succeeded. Please restart telegraf.”*
 ## Step 8: Register Telegraf
