@@ -1,6 +1,6 @@
 # Telegraf Installation and Registration (CLI Script)
 
-This script sets up Telegraf on a Linux system, configures the InfluxData repository, installs dependencies, pulls a remote utility script, and registers the agent with a remote collector.
+This script sets up Telegraf on a Linux system, configures the InfluxData repository, installs dependencies, downloads a remote utility script, and registers the Telegraf agent with a remote collector.
 
 ## 🧰 Requirements
 - Root/sudo access
@@ -13,9 +13,9 @@ Telegraf requires an additional proxy collector which the Telegraf agents connec
 
 ![](images/CleanShot%202025-05-29%20at%2006.42.42@2x.png)<!-- {"width":755} -->
 
-The proxy is added to a collector group.   In my example I am using a non-HA collector group called ‘pggb’.  The following is the screen shot of my example collector group.
+The proxy is added to a collector group. In my example I am using a non-HA collector group called ‘pggb’.  The following is the screenshot of my example collector group.
 
-Use the IP address of the porxy in the script.
+Use the IP address of the proxy in the script.
 
 ![](images/CleanShot%202025-05-29%20at%2006.46.03@2x.png)<!-- {"width":749} -->
 
@@ -40,15 +40,18 @@ TELEGRAF_CONFIG_DIR="/etc/telegraf/telegraf.d"
 TEMP_DIR="/opt/deploy/temp"
 KEY_SHA256="943666881a1b8d9b849b74caebf02d3465d6beb716510d86a39f6c8e8dac7515"
 
-# === Install base packages ===
+
+# === Install Base Packages ===
 apt-get update
 
 apt-get install -y unzip coreutils net-tools jq curl gpg
 
-# === Create temp directory ===
+
+# === Create Temp Directory ===
 mkdir -p "$TEMP_DIR"
 
-# === Add InfluxData repo and key ===
+
+# === Add InfluxData Repo and Key ===
 cd "$TEMP_DIR"
 
 curl --silent --location -O https://repos.influxdata.com/influxdata-archive.key
@@ -60,31 +63,37 @@ cat influxdata-archive.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/influxda
 echo "deb [signed-by=/etc/apt/trusted.gpg.d/influxdata-archive.gpg] https://repos.influxdata.com/debian stable main" \
   | tee /etc/apt/sources.list.d/influxdata.list
 
+
 # === Install Telegraf ===
 apt-get update
 
 apt-get install -y telegraf
 
-# === Create config directory ===
+
+# === Create Config Directory ===
 mkdir -p "$TELEGRAF_CONFIG_DIR"
 
-# === Download helper script ===
+
+# === Download Helper Script ===
 curl --insecure -L -o "$TEMP_DIR/telegraf-utils.sh" "https://${OPS_PROXY_IP}/downloads/salt/telegraf-utils.sh"
 
 chmod +x "$TEMP_DIR/telegraf-utils.sh"
 
-# === Acquire auth token ===
+
+# === Acquire Auth Token ===
 curl -X POST "https://${OPS_HOST}/suite-api/api/auth/token/acquire?_no_links=true" \
   -H "accept: application/json" \
   -H "Content-Type: application/json" \
   -d "{ \"username\": \"${OPS_USER}\", \"password\": \"${OPS_PASSWORD}\" }" \
   --insecure | jq -r .token > "$TEMP_DIR/auth_token.txt"
 
-# === Verify token exists ===
+
+# === Verify Token Exists ===
 if [[ ! -f "$TEMP_DIR/auth_token.txt" ]]; then
   echo "Auth token not found, exiting"
   exit 1
 fi
+
 
 # === Register Telegraf ===
 TOKEN=$(cat "$TEMP_DIR/auth_token.txt")
@@ -96,14 +105,19 @@ TOKEN=$(cat "$TEMP_DIR/auth_token.txt")
   -e "$TELEGRAF_BIN" \
   -v "$OPS_HOST"
 
-# === Fix permissions ===
+
+# === Fix Permissions ===
 chmod 644 "$TELEGRAF_CONFIG_DIR/cert.pem"
 chmod 644 "$TELEGRAF_CONFIG_DIR/key.pem"
+
 
 # === Restart Telegraf ===
 systemctl restart telegraf
 
 systemctl enable telegraf
 
-echo "✅ Telegraf installed and registered successfully with your.ops.host"
+
+echo "✅ Telegraf has been installed and registered successfully with your.ops.host."
 ```
+
+There is a salt version of this @ ["saltlinux.sls"](https://github.com/peteha/pggb-docs/blob/main/vcfoperations/telegraf/saltlinux.sls)
