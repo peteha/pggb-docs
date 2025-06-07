@@ -1,6 +1,6 @@
 # Telegraf Installation and Registration (CLI Script)
 
-This script sets up Telegraf on a Linux system, configures the InfluxData repository, installs dependencies, downloads a remote utility script, and registers the Telegraf agent with a remote collector.
+This guide provides a step-by-step manual process to install and configure the open-source Telegraf agent on linux (debian based), optimized for integration with VMware Aria Operations.  It configures the InfluxData repository, installs dependencies, downloads a remote utility script, and registers the Telegraf agent with a remote collector.
 
 ## 🧰 Requirements
 - Root/sudo access
