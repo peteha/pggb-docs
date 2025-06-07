@@ -1,5 +1,5 @@
 {% set ops_user = 'admin' %}
-{% set ops_password = '##$$VMware123' %}
+{% set ops_password = 'PASSWORD123' %}
 {% set ops_proxyip= '10.205.16.57' %}
 {% set opshost= 'pgops.pggb.net' %}
 {% set collectiongroup= '10.205.16.57' %}
