@@ -14,7 +14,7 @@ Telegraf requires an additional proxy collector which the Telegraf agents connec
 ![](images/CleanShot%202025-05-29%20at%2006.42.42@2x.png)<!-- {"width":755} -->
 
 The proxy is added to a collector group.   In my example I am using a non-HA collector group called ‘pggb’.  The following is the screen shot of my example collector group.
-Use the IP address of the porxy in the .env and script.
+Use the IP address of the porxy in the script.
 
 ![](images/CleanShot%202025-05-29%20at%2006.46.03@2x.png)<!-- {"width":749} -->
 
@@ -43,7 +43,7 @@ Create a file named `.env` in `C:\Deploy\Temp` with the following contents. This
 ```env
 OPS_HOST=pgops.pggb.net
 OPS_USERNAME=admin
-OPS_PASSWORD=##$$VMware123
+OPS_PASSWORD=PASSWORD123
 TOKEN_PATH=C:\\Deploy\\Temp\\auth_token.txt
 OPS_PROXY=10.205.16.57
 COLLECTION_GROUP=10.205.16.57

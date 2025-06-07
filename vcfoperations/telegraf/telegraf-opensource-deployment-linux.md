@@ -14,9 +14,12 @@ Telegraf requires an additional proxy collector which the Telegraf agents connec
 ![](images/CleanShot%202025-05-29%20at%2006.42.42@2x.png)<!-- {"width":755} -->
 
 The proxy is added to a collector group.   In my example I am using a non-HA collector group called ‘pggb’.  The following is the screen shot of my example collector group.
+
+Use the IP address of the porxy in the script.
+
 ![](images/CleanShot%202025-05-29%20at%2006.46.03@2x.png)<!-- {"width":749} -->
 
-
+Update the configuration with your environment.
 
 ## 📜 Script
 
@@ -26,11 +29,11 @@ The proxy is added to a collector group.   In my example I am using a non-HA col
 set -e
 
 # === Configuration ===
-OPS_USER="your_username"
-OPS_PASSWORD="your_secure_password"
-OPS_PROXY_IP="your.ops.proxy"
-OPS_HOST="your.ops.host"
-COLLECTION_GROUP="your_collection_group"
+OPS_USER="admin"
+OPS_PASSWORD="PASSWORD123"
+OPS_PROXY_IP="10.205.16.57"
+OPS_HOST="pgops.pggb.net"
+COLLECTION_GROUP="10.205.16.57"
 
 TELEGRAF_BIN="/usr/bin/telegraf"
 TELEGRAF_CONFIG_DIR="/etc/telegraf/telegraf.d"
