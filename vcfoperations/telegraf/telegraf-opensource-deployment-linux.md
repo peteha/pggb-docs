@@ -4,8 +4,19 @@ This script sets up Telegraf on a Linux system, configures the InfluxData reposi
 
 ## 🧰 Requirements
 - Root/sudo access
-- Internet access to `repos.influxdata.com` and the `{{ opshost }}` endpoint
+- Internet access to `repos.influxdata.com` and the `OPS_HOST` endpoint
 - curl, jq, gpg, sha256sum
+
+### 1. VCF Operations Collection Proxy and Collector Group
+
+Telegraf requires an additional proxy collector which the Telegraf agents connect to.  The following is a screenshot of the proxy used in the example.
+
+![](CleanShot%202025-05-29%20at%2006.42.42@2x.png)<!-- {"width":755} -->
+
+The proxy is added to a collector group.   In my example I am using a non-HA collector group called ‘pggb’.  The following is the screen shot of my example collector group.
+![](CleanShot%202025-05-29%20at%2006.46.03@2x.png)<!-- {"width":749} -->
+
+
 
 ## 📜 Script
 
