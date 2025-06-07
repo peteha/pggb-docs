@@ -11,12 +11,12 @@ This is a guide only - refer to official documentation befor utilising in your o
 
 Telegraf requires an additional proxy collector which the Telegraf agents connect to.  The following is a screenshot of the proxy used in the example.
 
-![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2006.42.42@2x.png)<!-- {"width":755} -->
+![](images/CleanShot%202025-05-29%20at%2006.42.42@2x.png)<!-- {"width":755} -->
 
 The proxy is added to a collector group.   In my example I am using a non-HA collector group called ‘pggb’.  The following is the screen shot of my example collector group.
 Use the IP address of the porxy in the .env and script.
 
-![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2006.46.03@2x.png)<!-- {"width":749} -->
+![](images/CleanShot%202025-05-29%20at%2006.46.03@2x.png)<!-- {"width":749} -->
 
 
 ### 
@@ -33,7 +33,7 @@ cd C:\Deploy\Temp
 ```
 
 
-![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2008.00.17@2x.png)<!-- {"width":546} -->
+![](images/CleanShot%202025-05-29%20at%2008.00.17@2x.png)<!-- {"width":546} -->
 ---
 
 ## 🧾 Step 2: Create the .env File
@@ -70,7 +70,7 @@ $envVars.GetEnumerator() | ForEach-Object { "$($_.Key) = $($_.Value)" }
 ```
 
 
-![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2008.01.37@2x.png)<!-- {"width":546} -->
+![](images/CleanShot%202025-05-29%20at%2008.01.37@2x.png)<!-- {"width":546} -->
 
 ---
 
@@ -92,7 +92,7 @@ curl.exe -k -L -o "C:\Deploy\Temp\telegraf-utils.ps1" https://$($envVars["OPS_PR
 ```
 
 
-![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.59.06@2x.png)<!-- {"width":687} -->
+![](images/CleanShot%202025-05-29%20at%2007.59.06@2x.png)<!-- {"width":687} -->
 
 ---
 
@@ -120,7 +120,7 @@ $TokenResponse.token | Out-File -FilePath $envVars["TOKEN_PATH"] -Encoding ascii
 ```
 
 
-![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.55.59@2x.png)<!-- {"width":592} -->
+![](images/CleanShot%202025-05-29%20at%2007.55.59@2x.png)<!-- {"width":592} -->
 ---
 
 ## 📝 Step 7: Configure Telegraf with the Token
@@ -140,7 +140,7 @@ powershell -ExecutionPolicy Bypass -File "C:\Deploy\Temp\telegraf-utils.ps1" `
 ```
 
 
-![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.40.57@2x.png)<!-- {"width":554} -->
+![](images/CleanShot%202025-05-29%20at%2007.40.57@2x.png)<!-- {"width":554} -->
 *Error does not impact deployment - if successful it should say “Telegraf configuration to post metrics to cloud proxy succeeded. Please restart telegraf.”*
 ## Step 8: Register Telegraf
 
@@ -152,7 +152,7 @@ powershell -ExecutionPolicy Bypass -File "C:\Deploy\Temp\telegraf-utils.ps1" `
 ```
 
 
-![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.43.06@2x.png)<!-- {"width":554} -->
+![](images/CleanShot%202025-05-29%20at%2007.43.06@2x.png)<!-- {"width":554} -->
 
 
 ## Step 9: Start Telegraf
@@ -162,12 +162,12 @@ net start telegraf
 ```
 
 
-![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.48.23@2x.png)<!-- {"width":360} -->
+![](images/CleanShot%202025-05-29%20at%2007.48.23@2x.png)<!-- {"width":360} -->
 
 ## Step 10:
 
 After a couple of collections cycles the agent should show as deployed in the the Ops console under Operations —> Applications —> Manage Telegraf Agents.
-![](telegraf-opensource-deployment-windows/CleanShot%202025-05-29%20at%2007.52.39@2x.png)<!-- {"width":938} -->
+![](images/CleanShot%202025-05-29%20at%2007.52.39@2x.png)<!-- {"width":938} -->
 Green tick in a circle confirms data is being collected.
 
 ---

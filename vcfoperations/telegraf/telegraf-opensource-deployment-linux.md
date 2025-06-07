@@ -11,10 +11,10 @@ This script sets up Telegraf on a Linux system, configures the InfluxData reposi
 
 Telegraf requires an additional proxy collector which the Telegraf agents connect to.  The following is a screenshot of the proxy used in the example.
 
-![](CleanShot%202025-05-29%20at%2006.42.42@2x.png)<!-- {"width":755} -->
+![](images/CleanShot%202025-05-29%20at%2006.42.42@2x.png)<!-- {"width":755} -->
 
 The proxy is added to a collector group.   In my example I am using a non-HA collector group called ‘pggb’.  The following is the screen shot of my example collector group.
-![](CleanShot%202025-05-29%20at%2006.46.03@2x.png)<!-- {"width":749} -->
+![](images/CleanShot%202025-05-29%20at%2006.46.03@2x.png)<!-- {"width":749} -->
 
 
 
